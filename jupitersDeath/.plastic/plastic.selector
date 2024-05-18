@@ -1,4 +1,0 @@
-repository "jupitersDeathh@slkgfmnlkjdf@cloud"
-  path "/"
-    br "/main"
-    co "/main"
