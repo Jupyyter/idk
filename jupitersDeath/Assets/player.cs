@@ -52,7 +52,7 @@ public class player : MonoBehaviour
                 this.GetComponent<Animator>().Play("mageMoveUpRight");
             }
         }
-        else if(xb == ' '){
+        else if(xb == ' ' && yb == 'S'){
             this.transform.localScale = new Vector3(1, 1, 1);
             this.GetComponent<Animator>().Play("mageIdle");
         }
