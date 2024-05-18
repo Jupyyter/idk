@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: mageIdle
+  m_Name: mageWeaponUnused
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -20,14 +20,10 @@ AnimationClip:
   m_PPtrCurves:
   - serializedVersion: 2
     curve:
-    - time: 0.016666668
-      value: {fileID: 7983027280211938785, guid: b9a8d44e802635949aa989bc6ae35cd5, type: 3}
-    - time: 0.25
-      value: {fileID: 2120898505872086253, guid: b9a8d44e802635949aa989bc6ae35cd5, type: 3}
-    - time: 0.51666665
-      value: {fileID: 7983027280211938785, guid: b9a8d44e802635949aa989bc6ae35cd5, type: 3}
+    - time: 0
+      value: {fileID: 2090080508, guid: 4eedb4cfd7a7dbd4eb169473815bb158, type: 3}
     attribute: m_Sprite
-    path: 
+    path: mageWeapon
     classID: 212
     script: {fileID: 0}
     flags: 2
@@ -39,7 +35,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 0
+      path: 1349958594
       attribute: 0
       script: {fileID: 0}
       typeID: 212
@@ -48,15 +44,13 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 7983027280211938785, guid: b9a8d44e802635949aa989bc6ae35cd5, type: 3}
-    - {fileID: 2120898505872086253, guid: b9a8d44e802635949aa989bc6ae35cd5, type: 3}
-    - {fileID: 7983027280211938785, guid: b9a8d44e802635949aa989bc6ae35cd5, type: 3}
+    - {fileID: 2090080508, guid: 4eedb4cfd7a7dbd4eb169473815bb158, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.5333333
+    m_StopTime: 0.016666668
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
