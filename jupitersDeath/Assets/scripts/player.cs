@@ -18,6 +18,10 @@ public class player : MonoBehaviour
     private bool canshoot = true;
     private float counter = 0;
 
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
