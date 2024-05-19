@@ -18,6 +18,8 @@ public class player : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 lastDirection;
     private const int MOVE_SPEED = 3;
+    private bool canshoot = true;
+    private float counter = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -36,75 +38,95 @@ public class player : MonoBehaviour
         rb.velocity = new Vector3(0, 0, 0);
         dirx = Input.GetAxisRaw("Horizontal");
         diry = Input.GetAxisRaw("Vertical");
-        lastDirection=new Vector2(dirx * MOVE_SPEED, diry * MOVE_SPEED);
+        lastDirection = new Vector2(dirx * MOVE_SPEED, diry * MOVE_SPEED);
         rb.velocity = lastDirection;//move
         animate(rb.velocity);
 
+        if (!canshoot)
+        {
+            counter += Time.deltaTime;
+            if (counter > 0.10f)
+            {//limiting shooting to once 0.10 seconds from god mode
+                canshoot = true;
+                counter = 0;
+            }
+        }
 
-        if (Input.GetKey(KeyCode.Z))
+        if (Input.GetKey(KeyCode.Z)&&canshoot)
         {
             weapon.SetActive(true);
-            shoot(firePoint.position,firePoint.rotation);
+            shoot(firePoint.position, firePoint.rotation);
+            canshoot=false;
         }
-        
+
 
     }
     /// <summary>
     /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// </summary>
-    private void animate(Vector2 velocity){
+    private void animate(Vector2 velocity)
+    {
         if (velocity != Vector2.zero)
         {
             if (dirx > 0)
             {
                 transform.localScale = new Vector3(1, 1, 1);
-                firePoint.localPosition=new Vector3(1,0,0);
-                firePoint.rotation=Quaternion.Euler(0,0,0);
+                firePoint.localPosition = new Vector3(1, 0, 0);
+                firePoint.rotation = Quaternion.Euler(0, 0, 0);
             }
             else
             {
                 transform.localScale = new Vector3(-1, 1, 1);
-                firePoint.localPosition=new Vector3(1,0,0);
-                firePoint.rotation=Quaternion.Euler(0,0,180);
+                firePoint.localPosition = new Vector3(1, 0, 0);
+                firePoint.rotation = Quaternion.Euler(0, 0, 180);
             }
             if (diry > 0)
             {
-                if(dirx==0){
+                if (dirx == 0)
+                {
                     changeAnimationState(MAGE_MOVE_UP);
-                    firePoint.localPosition=new Vector3(0,0.5f,0);
-                    firePoint.rotation=Quaternion.Euler(0,0,90);
+                    firePoint.localPosition = new Vector3(0, 0.5f, 0);
+                    firePoint.rotation = Quaternion.Euler(0, 0, 90);
                 }
-                else{
+                else
+                {
                     changeAnimationState(MAGE_MOVE_UP_RIGHT);
-                    if(dirx>0){
-                        firePoint.localPosition=new Vector3(0.5f,0.5f,0);
-                    firePoint.rotation=Quaternion.Euler(0,0,45);
+                    if (dirx > 0)
+                    {
+                        firePoint.localPosition = new Vector3(0.5f, 0.5f, 0);
+                        firePoint.rotation = Quaternion.Euler(0, 0, 45);
                     }
-                    else{
-                       firePoint.localPosition=new Vector3(0.5f,0.5f,0);
-                    firePoint.rotation=Quaternion.Euler(0,0,135);
+                    else
+                    {
+                        firePoint.localPosition = new Vector3(0.5f, 0.5f, 0);
+                        firePoint.rotation = Quaternion.Euler(0, 0, 135);
                     }
                 }
             }
             else
             {
-                if(dirx==0){
+                if (dirx == 0)
+                {
                     changeAnimationState(MAGE_MOVE_DOWN);
-                    firePoint.localPosition=new Vector3(0,-0.5f,0);
-                    firePoint.rotation=Quaternion.Euler(0,0,-90);
+                    firePoint.localPosition = new Vector3(0, -0.5f, 0);
+                    firePoint.rotation = Quaternion.Euler(0, 0, -90);
                 }
-                else{
+                else
+                {
                     changeAnimationState(MAGE_MOVE_RIGHT);
-                    if(diry!=0){
-                        if(dirx>0){
-                       firePoint.localPosition=new Vector3(0.5f,-0.5f,0);
-                    firePoint.rotation=Quaternion.Euler(0,0,-45);
-                    }
-                    else{
-                       firePoint.localPosition=new Vector3(0.5f,-0.5f,0);
-                    firePoint.rotation=Quaternion.Euler(0,0,-135);
-                    }
+                    if (diry != 0)
+                    {
+                        if (dirx > 0)
+                        {
+                            firePoint.localPosition = new Vector3(0.5f, -0.5f, 0);
+                            firePoint.rotation = Quaternion.Euler(0, 0, -45);
+                        }
+                        else
+                        {
+                            firePoint.localPosition = new Vector3(0.5f, -0.5f, 0);
+                            firePoint.rotation = Quaternion.Euler(0, 0, -135);
+                        }
                     }
                 }
             }
@@ -124,8 +146,10 @@ public class player : MonoBehaviour
         rotationn *= quar;
         GameObject bulletClone = Instantiate(projectile, pos, rotationn);
     }
-    private void attackEnd(){
-        if (!Input.GetKey(KeyCode.Z)){
+    private void attackEnd()
+    {
+        if (!Input.GetKey(KeyCode.Z))
+        {
             weapon.SetActive(false);
         }
     }
