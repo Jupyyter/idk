@@ -6,8 +6,6 @@ public class player : MonoBehaviour
     [SerializeField] private Transform firePoint;
     private string currentState;
     private Animator anim;
-    private float dirx;
-    private float diry;
     private const string MAGE_MOVE_UP = "mageMoveUp";
     private const string MAGE_MOVE_UP_RIGHT = "mageMoveUpRight";
     private const string MAGE_MOVE_DOWN = "mageIdle";
@@ -16,7 +14,6 @@ public class player : MonoBehaviour
     private const string MAGE_WEAPON_UNUSED = "mageWeaponUnused";
     [SerializeField] private GameObject projectile;
     private Rigidbody2D rb;
-    private Vector2 lastDirection;
     private const int MOVE_SPEED = 3;
     private bool canshoot = true;
     private float counter = 0;
@@ -35,12 +32,9 @@ public class player : MonoBehaviour
     /// </summary>
     void Update()
     {
-        rb.velocity = new Vector3(0, 0, 0);
-        dirx = Input.GetAxisRaw("Horizontal");
-        diry = Input.GetAxisRaw("Vertical");
-        lastDirection = new Vector2(dirx * MOVE_SPEED, diry * MOVE_SPEED);
-        rb.velocity = lastDirection;//move
-        animate(rb.velocity);
+        rb.velocity = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
+        rb.velocity = rb.velocity.normalized * MOVE_SPEED;
+        animate();
 
         if (!canshoot)
         {
@@ -65,11 +59,11 @@ public class player : MonoBehaviour
     /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// </summary>
-    private void animate(Vector2 velocity)
+    private void animate()
     {
-        if (velocity != Vector2.zero)
+        if (rb.velocity != Vector2.zero)
         {
-            if (dirx > 0)
+            if (rb.velocity.x > 0)
             {
                 transform.localScale = new Vector3(1, 1, 1);
                 firePoint.localPosition = new Vector3(1, 0, 0);
@@ -81,9 +75,9 @@ public class player : MonoBehaviour
                 firePoint.localPosition = new Vector3(1, 0, 0);
                 firePoint.rotation = Quaternion.Euler(0, 0, 180);
             }
-            if (diry > 0)
+            if (rb.velocity.y > 0)
             {
-                if (dirx == 0)
+                if (rb.velocity.x == 0)
                 {
                     changeAnimationState(MAGE_MOVE_UP);
                     firePoint.localPosition = new Vector3(0, 0.5f, 0);
@@ -92,7 +86,7 @@ public class player : MonoBehaviour
                 else
                 {
                     changeAnimationState(MAGE_MOVE_UP_RIGHT);
-                    if (dirx > 0)
+                    if (rb.velocity.x > 0)
                     {
                         firePoint.localPosition = new Vector3(0.5f, 0.5f, 0);
                         firePoint.rotation = Quaternion.Euler(0, 0, 45);
@@ -106,7 +100,7 @@ public class player : MonoBehaviour
             }
             else
             {
-                if (dirx == 0)
+                if (rb.velocity.x == 0)
                 {
                     changeAnimationState(MAGE_MOVE_DOWN);
                     firePoint.localPosition = new Vector3(0, -0.5f, 0);
@@ -115,9 +109,9 @@ public class player : MonoBehaviour
                 else
                 {
                     changeAnimationState(MAGE_MOVE_RIGHT);
-                    if (diry != 0)
+                    if (rb.velocity.y != 0)
                     {
-                        if (dirx > 0)
+                        if (rb.velocity.x > 0)
                         {
                             firePoint.localPosition = new Vector3(0.5f, -0.5f, 0);
                             firePoint.rotation = Quaternion.Euler(0, 0, -45);
